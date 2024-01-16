@@ -1,0 +1,6 @@
+Cases,Functions,Results,Resulting_Significant_Figures
+"i","b-a","9.08",3
+"ii","b/ln(a)","10.11",4
+"iii","a*log10(b)","3.79",3
+"iv","e^(b-a)","8.73e+03",3
+"v","sin(a*pi)","-0.988",3
