@@ -78,7 +78,48 @@ plt.plot(timeList,densityList, color = "tab:red")
 plt.grid(True)
 plt.show()
 
-#need the coverage function
-tau = 0.5 #<-- this was fixed in the paper
+"""The coverage vunction takes use of the area of the void and then
+uses that tpo calculate the coverage of the cells. There needs to be a 'for
+loop' that will look each value of u(t) and then calculate coverage
 
-#A_void function needed here
+For this equation we are using L which is the pore size length and that
+is set from the experiment. For this we are using 400 microns"""
+
+#Coverage values need to be specified
+length = 400 #microns
+
+#A_void function
+def a_void(ut,poreLength,diam):
+    poreArea = poreLength**2
+    pi = np.pi
+    num_cells = ut*poreArea
+    r = diam/2
+
+    avoid = poreArea - ((pi*r**2)*num_cells)
+
+    return avoid
+
+#coverage function
+def coverageFunct(ut,L,diam):
+    avoid = a_void(ut,L,diam) #calculate a_void
+    cov = 1 - (avoid/L**2)
+    
+    return cov
+
+#create list for the coverage
+coverageList = []
+coverageListFormatted = []
+
+#get coverage for each density
+for i in range(len(densityList)):
+    coverage = coverageFunct(densityList[i], length,fiberDiameter)
+    coverageList.append(coverage)
+
+#format to list with correct sigfigs
+for i in range(len(coverageList)):
+    coverageListFormatted.append('%.*g' % (sigfigs,coverageList[i]))
+
+fig2 = plt.figure(figsize = (10,8))
+plt.plot(timeList,coverageList, color = "tab:red")
+plt.grid(True)
+plt.show()
